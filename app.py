@@ -19,12 +19,16 @@ def webhook():
     
     #Add question if answer is missing
     if parameter.get('rolbeoordeelde') == '':
-        rolbeoordeeldetext = 'Wat is de rol van ', details.get('AlgemeneInformatie').get('beoordeelde'), '?'
+        rolbeoordeeldetext = 'Wat was de rol van ' + details.get('AlgemeneInformatie').get('beoordeelde') + '?'
         return jsonify({'fulfillmentText': rolbeoordeeldetext})
 
     if parameter.get('redensterkpunt') == '':
-        redensterkpunttext = 'U heeft aangegeven dat ', details.get('AlgemeneInformatie').get('beoordeelde'), ' goed is in ', details.get('Feedback').get('sterkpunt'), ', waarom vindt u dat?'
+        redensterkpunttext = 'U heeft aangegeven dat ' + details.get('AlgemeneInformatie').get('beoordeelde') + ' goed is in ' + details.get('Feedback').get('sterkpunt') + ', waarom vindt u dat?'
         return jsonify({'fulfillmentText': redensterkpunttext})
+
+    if parameter.get('redenverbeterpunt') == '':
+        redenverbeterpunttext = 'U heeft aangegeven dat ' + details.get('AlgemeneInformatie').get('beoordeelde') + ' goed is in ' + details.get('Feedback').get('verbeterpunt') + ', waarom vindt u dat?'
+        return jsonify({'fulfillmentText': redenverbeterpunttext})
     
     #Writing JSON file to pc
     with open('details.json', 'w') as json_file:
