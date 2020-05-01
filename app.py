@@ -37,25 +37,6 @@ def webhook():
             '- Relatie: ' + details.get('AlgemeneInformatie').get('relatie')
         return jsonify({'fulfillmentText': detailsConfText})
     
-    #Confirmation question for Feedback
-    if req.get('queryResult').get('intent').get('displayName') == 'GetOverall':
-        if len(details.get('Feedback').get('sterkpunt3')) > 0 and len(details.get('Feedback').get('verbeterpunt3')) > 0:
-            detailsConfText = 'Kloppen deze gegevens?\n' + \
-                '- Sterk punt 1: ' + details.get('Feedback').get('sterkpunt') + '\n' + \
-                '- Reden sterk punt 1: ' + details.get('Feedback').get('redensterkpunt') + '\n' + \
-                '- Sterk punt 2: ' + details.get('Feedback').get('sterkpunt2') + '\n' + \
-                '- Reden sterk punt 2: ' + details.get('Feedback').get('redensterkpunt2') + '\n' + \
-                '- Sterk punt 3: ' + details.get('Feedback').get('sterkpunt3') + '\n' + \
-                '- Reden sterk punt 3: ' + details.get('Feedback').get('redensterkpunt3') + '\n' + \
-                '- Verbeter punt 1: ' + details.get('Feedback').get('verbeterpunt') + '\n' + \
-                '- Reden Verbeter punt 1: ' + details.get('Feedback').get('redenverbeterpunt') + '\n' + \
-                '- Verbeter punt 2: ' + details.get('Feedback').get('verbeterpunt2') + '\n' + \
-                '- Reden Verbeter punt 2: ' + details.get('Feedback').get('redenverbeterpunt2') + '\n' + \
-                '- Verbeter punt 3: ' + details.get('Feedback').get('verbeterpunt3') + '\n' + \
-                '- Reden Verbeter punt 3: ' + details.get('Feedback').get('redenverbeterpunt3') + '\n' + \
-                '- Overall: ' + details.get('Feedback').get('overall')
-        return jsonify({'fulfillmentText': detailsConfText})
-    
     #Writing JSON file to pc
     with open('details.json', 'w') as json_file:
         json.dump(details, json_file)
