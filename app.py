@@ -10,6 +10,8 @@ def webhook():
     #Get conversation context
     req = request.get_json(force=True)
     parameter = req.get('queryResult').get('parameters')
+    intent = req.get('queryResult').get('intent').get('displayName')
+    print(parameter)
 
     #Welcome text including system name of user
     if req.get('queryResult').get('action') == 'input.welcome':
@@ -27,15 +29,9 @@ def webhook():
     
     #Confirmation question for Algemene Informatie
     if req.get('queryResult').get('intent').get('displayName') == 'GetRelatie':
-        detailsConfText = 'Kloppen deze gegevens?\n' + \
-            '- Uw naam: ' + details.get('AlgemeneInformatie').get('gebruiker') + '\n' + \
-            '- Uw rol: ' + details.get('AlgemeneInformatie').get('rolgebruiker') + '\n' + \
-            '- Naam beoordeelde: ' + details.get('AlgemeneInformatie').get('beoordeelde') + '\n' + \
-            '- Rol beoordeelde: ' + details.get('AlgemeneInformatie').get('rolbeoordeelde') + '\n' + \
-            '- Project: ' + details.get('AlgemeneInformatie').get('project') + '\n' + \
-            '- Periode: ' + details.get('AlgemeneInformatie').get('begindatum') + ' tot ' + details.get('AlgemeneInformatie').get('einddatum') + '\n' + \
-            '- Relatie: ' + details.get('AlgemeneInformatie').get('relatie')
-        return jsonify({'fulfillmentText': detailsConfText})
+        detailsConfText = 'Kloppen deze gegevens? - Uw naam: %s - Uw rol: %s - Naam beoordeelde: %s - Rol beoordeelde: %s - Project: %s - Periode: %s tot %s - Relatie: %s'
+        detailsInfo = (os.getlogin(), details.get('AlgemeneInformatie').get('rolgebruiker'), details.get('AlgemeneInformatie').get('beoordeelde'), details.get('AlgemeneInformatie').get('rolbeoordeelde'), details.get('AlgemeneInformatie').get('project'), details.get('AlgemeneInformatie').get('begindatum'), details.get('AlgemeneInformatie').get('einddatum'), details.get('AlgemeneInformatie').get('relatie'))
+        return jsonify({'fulfillmentText': detailsConfText % detailsInfo})
     
     #Writing JSON file to pc
     with open('details.json', 'w') as json_file:
