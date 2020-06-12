@@ -21,7 +21,7 @@ def webhook():
 
     #Filling JSON
     for key in parameter.keys():
-        if key == "beoordeelde" or key == "project" or key == "begindatum" or key == "einddatum" or key == "rolgebruiker" or key == "rolbeoordeelde" or key == "relatie":
+        if key == "gebruiker" or key == "beoordeelde" or key == "project" or key == "begindatum" or key == "einddatum" or key == "rolgebruiker" or key == "rolbeoordeelde" or key == "relatie":
             details.get('AlgemeneInformatie').update(parameter)
         elif key == "sterkpunt" or key == "redensterkpunt" or key == "sterkpunt2" or key == "redensterkpunt2" or key == "sterkpunt3" or key == "redensterkpunt3" or key == "verbeterpunt" or key == "redenverbeterpunt" or key == "verbeterpunt2" or key == "redenverbeterpunt2" or key == "verbeterpunt3" or key == "redenverbeterpunt3" or key == "overall":
             details.get('Feedback').update(parameter)
@@ -86,8 +86,11 @@ def webhook():
             return jsonify({'fulfillmentText': 'Welk van de drie bovenstaande punten wilt u aanpassen?'})
 
     #Writing JSON file to pc
-    with open('details.json', 'w') as json_file:
-        json.dump(details, json_file)
+    if intent.startswith('GetBevestigingVerbeter') or intent.startswith('GetBevestigingRedenVerbeter') or intent.startswith('GetBevestigingOverall'):
+        with open('details.json', 'w') as json_file:
+            json.dump(details, json_file)
+        return details
+    
     return details
 
 if __name__ == '__main__':
